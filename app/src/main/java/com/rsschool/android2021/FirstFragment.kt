@@ -1,12 +1,18 @@
 package com.rsschool.android2021
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import java.time.Instant
 
 class FirstFragment : Fragment() {
 
@@ -29,11 +35,24 @@ class FirstFragment : Fragment() {
         val result = arguments?.getInt(PREVIOUS_RESULT_KEY)
         previousResult?.text = "Previous result: ${result.toString()}"
 
-        // TODO: val min = ...
-        // TODO: val max = ...
+        var min = 0
+        view.findViewById<EditText>(R.id.min_value).doAfterTextChanged {
+            view.findViewById<EditText>(R.id.min_value).text.toString().toIntOrNull()?.let {
+                min = it
+            }
+        }
+        var max = 0
+        view.findViewById<EditText>(R.id.max_value).doAfterTextChanged {
+            view.findViewById<EditText>(R.id.max_value).text.toString().toIntOrNull()?.let {
+                max = it
+            }
+        }
 
         generateButton?.setOnClickListener {
-            // TODO: send min and max to the SecondFragment
+            val secondFragment: Fragment = SecondFragment.newInstance(min, max) //Вызываем ф-ию newInstance у второго фрагмента
+            val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, secondFragment)
+            transaction.commit()
         }
     }
 
