@@ -96,10 +96,7 @@ class FirstFragment : Fragment() {
             else -> true
         }
     }
-
-    private fun changeEnable() {
-        generateButton.isEnabled = checkValues()
-    }
+    
 
     companion object {
         @JvmStatic
